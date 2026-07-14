@@ -2,7 +2,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I includes
 AR = ar
 ARFLAGS = rcs
-SRCS = $(wildcard src/*.c)
+SRCS = src/ft_putchar.c src/ft_putstr.c src/ft_strlen.c src/ft_strcmp.c src/ft_swap.c
 OBJS = $(SRCS:.c=.o)
 NAME = libft.a
 
