@@ -64,7 +64,8 @@ void	test_strcmp(void)
 	assert((strcmp("simon", "str") ^ ft_strcmp("simon", "str")) > 0);
 	assert((strcmp("", "str") ^ ft_strcmp("", "str")) > 0);
 	assert((strcmp("simon", "") ^ ft_strcmp("simon", "")) > 0);
-	// assert((strcmp("", "") ^ ft_strcmp("", "")) > 0);
+	assert(strcmp("", "") == ft_strcmp("", ""));
+	assert(strcmp("simon", "simon") == ft_strcmp("simon", "simon"));
 }
 
 void	test_strlen(void)
