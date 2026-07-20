@@ -6,29 +6,11 @@
 /*   By: simon.lau <simon.lau@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 21:38:28 by simon.lau         #+#    #+#             */
-/*   Updated: 2026/07/19 16:05:54 by simon.lau        ###   ########.fr       */
+/*   Updated: 2026/07/20 21:12:20 by simon.lau        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-
-static char	*ft_strncpy(char *dest, char *src, int n)
-{
-	int	i;
-
-	if (src == NULL || *src == '\0')
-	{
-		return (dest);
-	}
-	i = 0;
-	while (i < n)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
 
 int	count_separators_sets(char *separators, char *str)
 {
@@ -39,19 +21,16 @@ int	count_separators_sets(char *separators, char *str)
 	current_sep = separators;
 	while (*str != '\0')
 	{
-		if (*current_sep == *str)
+		while (*current_sep != '\0')
 		{
-			current_sep++;
-			if (*current_sep == '\0')
+			if (*current_sep == *str)
 			{
 				count++;
-				current_sep = separators;
+				break ;
 			}
+			current_sep++;
 		}
-		else
-		{
-			current_sep = separators;
-		}
+		current_sep = separators;
 		str++;
 	}
 	return (count);
@@ -59,32 +38,31 @@ int	count_separators_sets(char *separators, char *str)
 
 int	move_to_pass_next_separator_end(char *separators, char **str)
 {
-	int	count;
+	int		count;
+	char	*current_sep;
 
+	current_sep = separators;
 	count = 0;
 	while (**str != '\0')
 	{
-		if (**str == *separators)
+		while (*current_sep != '\0')
 		{
-			separators++;
-			*str += 1;
-			if (*separators == '\0')
+			if (*current_sep == **str)
 			{
+				*str += 1;
 				return (count);
 			}
+			current_sep++;
 		}
-		else
-		{
-			count++;
-			*str += 1;
-		}
+		count++;
+		current_sep = separators;
+		*str += 1;
 	}
 	*str += 1;
 	return (count);
 }
 
-char	*slice_num_letters_to_new_str(char *str, int num, char **result,
-		int index)
+char	*slice_num_letters_to_new_str(char *str, int num)
 {
 	char	*new_str;
 	int		i;
@@ -92,16 +70,19 @@ char	*slice_num_letters_to_new_str(char *str, int num, char **result,
 	new_str = malloc((1 + num) * sizeof(*new_str));
 	if (!new_str)
 	{
-		i = 0;
-		while (i < index)
-		{
-			free(result[i]);
-			i++;
-		}
-		free(result);
 		return (NULL);
 	}
-	ft_strncpy(new_str, str, num);
+	if (str == NULL || *str == '\0')
+	{
+		return (new_str);
+	}
+	i = 0;
+	while (i < num)
+	{
+		new_str[i] = str[i];
+		i++;
+	}
+	new_str[i] = '\0';
 	return (new_str);
 }
 
@@ -109,12 +90,12 @@ char	**ft_split(char *str, char *charset)
 {
 	char	**ptr_str;
 	int		count;
+	char	**result;
 	int		i;
 	char	*current_letter;
-	char	**result;
 
 	ptr_str = &str;
-	move_to_pass_next_separator_end(charset, ptr_str);
+	count = move_to_pass_next_separator_end(charset, ptr_str);
 	count = count_separators_sets(charset, *ptr_str);
 	if (count < 1)
 		return (NULL);
@@ -126,7 +107,7 @@ char	**ft_split(char *str, char *charset)
 	while (*str != '\0')
 	{
 		count = move_to_pass_next_separator_end(charset, &current_letter);
-		result[i] = slice_num_letters_to_new_str(str, count, result, i);
+		result[i] = slice_num_letters_to_new_str(str, count);
 		i++;
 		str = current_letter;
 	}
