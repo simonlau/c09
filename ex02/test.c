@@ -21,6 +21,8 @@ void	test_two_sep(void)
 	assert(NULL != result);
 	assert(0 == strcmp("simon", result[0]));
 	assert(NULL == result[1]);
+	free(result[0]);
+	free(result);
 }
 
 void	test_three_sep(void)
@@ -32,6 +34,9 @@ void	test_three_sep(void)
 	assert(0 == strcmp("simon", result[0]));
 	assert(0 == strcmp("lau", result[1]));
 	assert(NULL == result[2]);
+	free(result[0]);
+	free(result[1]);
+	free(result);
 }
 
 int	main(void)
