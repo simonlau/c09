@@ -6,31 +6,46 @@
 /*   By: simon.lau <simon.lau@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 21:38:28 by simon.lau         #+#    #+#             */
-/*   Updated: 2026/07/21 10:43:27 by simon.lau        ###   ########.fr       */
+/*   Updated: 2026/07/21 15:04:21 by simon.lau        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
+int	is_separator(char *separators, char c)
+{
+	while (*separators != '\0')
+	{
+		if (*separators == c)
+		{
+			return (1);
+		}
+		separators++;
+	}
+	return (0);
+}
+
 int	count_separators_sets(char *separators, char *str)
 {
-	int		count;
-	char	*current_sep;
+	int	count;
+	int	start;
 
 	count = 0;
-	current_sep = separators;
+	start = 0;
 	while (*str != '\0')
 	{
-		while (*current_sep != '\0')
+		if (is_separator(separators, *str))
 		{
-			if (*current_sep == *str)
+			if (start == 0)
 			{
 				count++;
-				break ;
+				start = 1;
 			}
-			current_sep++;
 		}
-		current_sep = separators;
+		else
+		{
+			start = 0;
+		}
 		str++;
 	}
 	return (count);
@@ -38,27 +53,32 @@ int	count_separators_sets(char *separators, char *str)
 
 int	move_to_pass_next_separator_end(char *separators, char **str)
 {
-	int		count;
-	char	*current_sep;
+	int	count;
+	int	start;
 
-	current_sep = separators;
 	count = 0;
+	start = is_separator(separators, **str);
 	while (**str != '\0')
 	{
-		while (*current_sep != '\0')
+		if (!is_separator(separators, **str))
 		{
-			if (*current_sep == **str)
+			if (start == 1)
+			{
+				break ;
+			}
+			count++;
+			*str += 1;
+		}
+		else
+		{
+			while (is_separator(separators, **str))
 			{
 				*str += 1;
-				return (count);
+				start = 1;
 			}
-			current_sep++;
 		}
-		count++;
-		current_sep = separators;
-		*str += 1;
 	}
-	*str += 1;
+	// *str += 1;
 	return (count);
 }
 
@@ -93,9 +113,10 @@ char	**ft_split(char *str, char *charset)
 	char	**result;
 	int		i;
 	char	*current_letter;
+	int		x;
 
 	ptr_str = &str;
-	count = move_to_pass_next_separator_end(charset, ptr_str);
+	move_to_pass_next_separator_end(charset, ptr_str);
 	count = count_separators_sets(charset, *ptr_str);
 	if (count < 1)
 		return (NULL);
@@ -106,8 +127,8 @@ char	**ft_split(char *str, char *charset)
 	current_letter = *ptr_str;
 	while (i < count)
 	{
-		result[i] = slice_num_letters_to_new_str(str,
-				move_to_pass_next_separator_end(charset, &current_letter));
+		x = move_to_pass_next_separator_end(charset, &current_letter);
+		result[i] = slice_num_letters_to_new_str(str, x);
 		i++;
 		str = current_letter;
 	}
