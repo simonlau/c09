@@ -6,7 +6,7 @@
 /*   By: simon.lau <simon.lau@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 21:38:28 by simon.lau         #+#    #+#             */
-/*   Updated: 2026/07/20 21:12:20 by simon.lau        ###   ########.fr       */
+/*   Updated: 2026/07/21 10:43:27 by simon.lau        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ char	**ft_split(char *str, char *charset)
 		return (NULL);
 	i = 0;
 	current_letter = *ptr_str;
-	while (*str != '\0')
+	while (i < count)
 	{
-		count = move_to_pass_next_separator_end(charset, &current_letter);
-		result[i] = slice_num_letters_to_new_str(str, count);
+		result[i] = slice_num_letters_to_new_str(str,
+				move_to_pass_next_separator_end(charset, &current_letter));
 		i++;
 		str = current_letter;
 	}

@@ -20,6 +20,19 @@ void	test_two_sep(void)
 	result = ft_split("x simon ", " ");
 	// printf("%s", *result);
 	assert(NULL != result);
+	// assert(0 == strcmp("simon", result[0]));
+	// assert(NULL == result[1]);
+	// free(result[0]);
+	// free(result);
+}
+
+void	test_two_sep_extra_at_back(void)
+{
+	char	**result;
+
+	result = ft_split("x simon yz", " ");
+	// printf("%s", *result);
+	assert(NULL != result);
 	assert(0 == strcmp("simon", result[0]));
 	assert(NULL == result[1]);
 	free(result[0]);
@@ -67,6 +80,7 @@ void	test_three_long_sep(void)
 }
 int	main(void)
 {
+	test_two_sep_extra_at_back();
 	test_invalid();
 	test_two_sep();
 	test_two_long_sep();
