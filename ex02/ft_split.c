@@ -6,7 +6,7 @@
 /*   By: simon.lau <simon.lau@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 21:38:28 by simon.lau         #+#    #+#             */
-/*   Updated: 2026/07/21 15:14:12 by simon.lau        ###   ########.fr       */
+/*   Updated: 2026/07/21 15:18:24 by simon.lau        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ int	move_to_pass_next_separator_end(char *separators, char **str)
 		if (!is_separator(separators, **str))
 		{
 			if (start == 1)
-			{
 				break ;
-			}
 			count++;
 			*str += 1;
 		}
