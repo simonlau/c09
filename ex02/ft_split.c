@@ -6,7 +6,7 @@
 /*   By: simon.lau <simon.lau@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 21:38:28 by simon.lau         #+#    #+#             */
-/*   Updated: 2026/07/21 15:04:21 by simon.lau        ###   ########.fr       */
+/*   Updated: 2026/07/21 15:14:12 by simon.lau        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	move_to_pass_next_separator_end(char *separators, char **str)
 			}
 		}
 	}
-	// *str += 1;
 	return (count);
 }
 
@@ -113,7 +112,6 @@ char	**ft_split(char *str, char *charset)
 	char	**result;
 	int		i;
 	char	*current_letter;
-	int		x;
 
 	ptr_str = &str;
 	move_to_pass_next_separator_end(charset, ptr_str);
@@ -127,8 +125,8 @@ char	**ft_split(char *str, char *charset)
 	current_letter = *ptr_str;
 	while (i < count)
 	{
-		x = move_to_pass_next_separator_end(charset, &current_letter);
-		result[i] = slice_num_letters_to_new_str(str, x);
+		result[i] = slice_num_letters_to_new_str(str,
+				move_to_pass_next_separator_end(charset, &current_letter));
 		i++;
 		str = current_letter;
 	}
